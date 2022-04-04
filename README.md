@@ -18,7 +18,7 @@ for i,v in pairs (data.Inventory) do -->>: Fills in empty inventory slot objects
   ItemFrame:setItem()
 end
 ```
-Afterwards that's pretty much it! The controller will do all the backend work and format it accordingly to my UI structure. (If you're interested on the **backend coding and the built-in sorting** please take a look at the repo!)
+Afterwards that's pretty much it! The controller will do all the backend work and format it accordingly to my UI structure. (If you're interested on the **backend OOP coding and the built-in sorting** please take a look at the repo!)
 
 ## Important Links
 **(Used in my Fall Accelerator) Demo - https://www.roblox.com/games/9127181027/Accelerator-Game-Concept**
