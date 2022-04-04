@@ -1,0 +1,41 @@
+local Knit = require(game:GetService("ReplicatedStorage").Packages.Knit)
+local InventoryFrame = require(script.Parent.Parent.Components.InventoryFrame)
+local Player = game.Players.LocalPlayer;
+local Character = Player.Character or Player.CharacterAdded:Wait(); -- Wait for the character to spawn
+
+-- Create the service:
+local LoadController = Knit.CreateController {
+	Name = "LoadController";
+	Client = {};
+}
+
+function LoadController:KnitInit()
+end
+
+function LoadController:KnitStart()
+	local data = Knit.GetService("PlayerService"):LoadCharacter()
+	local MainInterface = game.Players.LocalPlayer.PlayerGui:WaitForChild("MainInterface")
+	
+	-->>: Sets Profile data into my UI structure
+	MainInterface.InventoryUI.Gold.Text = data.Gold
+	MainInterface.InventoryUI.Level.Text = "Level "..data.LevelData.Level
+	MainInterface.InventoryUI.InventorySize.Text = (#data.Inventory + #data.Arcane).."/"..data.InventorySpace
+	MainInterface.TopBar.ExpFrame.Gold.Text = data.Gold
+	MainInterface.TopBar.ExpFrame.Gems.Text = data.Gems
+	MainInterface.TopBar.ExpFrame.LevelText.Text = "Level "..data.LevelData.Level
+	MainInterface.TopBar.ExpFrame.LevelText.LevelValue.Value = data.LevelData.Level
+	MainInterface.PlayerInterface.ItemFrame.Bow.Arrows.Text = data.ArrowCount
+
+	for i = 1, data.InventorySpace, 1 do -->>: Creates empty inventory slot objects into UI structure
+		local EmptyFrame = InventoryFrame.newEmpty("ScrollingFrame")
+		EmptyFrame:setEmpty()
+	end
+	
+	for i,v in pairs (data.Inventory) do -->>: Fills in empty inventory slot objects if data exists within slot
+		local ItemFrame = InventoryFrame.newItem(v.Name, v.Rarity, v.Upgrades, v.Bonus, v.Equipped, nil, "ScrollingFrame")
+		ItemFrame:setItem()
+	end
+
+end
+
+return LoadController
