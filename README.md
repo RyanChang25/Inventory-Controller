@@ -5,14 +5,14 @@ I developed the Profile Inventory Controller so that it can easily read data ret
 The Controller's functionality is actually pretty straight forward; all it does is once the client loads in, the client-side Knit will wait for the player data to be sent to the client. It then reads the Profile Service data, and creates empty inventory slot objects (Based on the players InventorySpace data) in the UI structure I built.
 ```
 for i = 1, data.InventorySpace, 1 do -->>: Creates empty inventory slot objects into UI structure
-  local EmptyFrame = InventoryFrame.newEmpty("ScrollingFrame")
+  local EmptyFrame = InventoryController.newEmpty("ScrollingFrame")
   EmptyFrame:setEmpty()
 end
 ```
 After the empty slots are created, the Controller will fill the slots in based on data found in the specified index
 ```
 for i,v in pairs (data.Inventory) do -->>: Fills in empty inventory slot objects if data exists within slot
-  local ItemFrame = InventoryFrame.newItem(v.Name, v.Rarity, v.Upgrades, v.Bonus, v.Equipped, nil, "ScrollingFrame")
+  local ItemFrame = InventoryController.newItem(v.Name, v.Rarity, v.Upgrades, v.Bonus, v.Equipped, nil, "ScrollingFrame")
   ItemFrame:setItem()
 end
 ```
