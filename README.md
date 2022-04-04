@@ -3,7 +3,7 @@
 ## Overview
 I developed a simple Inventory Controller so that it can easily read data returned from Profile Service and implement them into my UI structure through OOP and built-in sorting. The primary concepts to look at is how the client reads the Profile data, the usage of OOP, and the built-in sorting system. So if you're interested with that, please take a look at the basic usage implementation shown below!
 
-*Note: Since the code shown in this repo was coded with **MY** UI structure in mind, so it is not expected to work for others. The point of this repo is rather to show how the backend systems function for those interested.* 
+*Note: Since the code shown in this repo was coded with **MY** UI structure in mind, so it is not expected to work for others. The point of this repo is rather to show how the backend systems function for those who are interested.* 
 
 ## Basic Usage 
 The Controller's functionality is actually pretty straight forward; all it does is once the client loads in, the client-side Knit will call a :LoadCharacter function to return their Profile Service data. It then reads the Profile Service data, and creates empty inventory slot objects *(Based on the players InventorySpace data)* in the UI structure I built.
