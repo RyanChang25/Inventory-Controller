@@ -21,6 +21,6 @@ end
 Afterwards that's pretty much it! The controller will do all the backend work and format it accordingly to my UI structure. (If you're interested on the **backend OOP coding and the built-in sorting** please take a look at the repo!)
 
 ## Important Links
-**(Used in my Fall Accelerator) Demo - https://www.roblox.com/games/9127181027/Accelerator-Game-Concept**
-
 **Profile Service - https://devforum.roblox.com/t/save-your-player-data-with-profileservice-datastore-module/667805**
+
+**(Used in my Fall Accelerator) Demo - https://www.roblox.com/games/9127181027/Accelerator-Game-Concept**
