@@ -2,7 +2,7 @@
 -- (Knit is not required for this to work)
 
 local Knit = require(game:GetService("ReplicatedStorage").Packages.Knit)
-local InventoryFrame = require(script.Parent.Parent.Components.InventoryFrame)
+local InventoryController = require(script.Parent.Parent.Components.InventoryController)
 local Player = game.Players.LocalPlayer;
 local Character = Player.Character or Player.CharacterAdded:Wait(); -- Wait for the character to spawn
 
@@ -30,12 +30,12 @@ function LoadController:KnitStart()
 	MainInterface.PlayerInterface.ItemFrame.Bow.Arrows.Text = data.ArrowCount
 
 	for i = 1, data.InventorySpace, 1 do -->>: Creates empty inventory slot objects into UI structure
-		local EmptyFrame = InventoryFrame.newEmpty("ScrollingFrame")
+		local EmptyFrame = InventoryController.newEmpty("ScrollingFrame")
 		EmptyFrame:setEmpty()
 	end
 	
 	for i,v in pairs (data.Inventory) do -->>: Fills in empty inventory slot objects if data exists within slot
-		local ItemFrame = InventoryFrame.newItem(v.Name, v.Rarity, v.Upgrades, v.Bonus, v.Equipped, nil, "ScrollingFrame")
+		local ItemFrame = InventoryController.newItem(v.Name, v.Rarity, v.Upgrades, v.Bonus, v.Equipped, nil, "ScrollingFrame")
 		ItemFrame:setItem()
 	end
 
