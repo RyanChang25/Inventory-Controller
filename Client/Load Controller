@@ -1,3 +1,6 @@
+-->>: System is used in conjunction with Knit
+-- (Knit is not required for this to work)
+
 local Knit = require(game:GetService("ReplicatedStorage").Packages.Knit)
 local InventoryFrame = require(script.Parent.Parent.Components.InventoryFrame)
 local Player = game.Players.LocalPlayer;
