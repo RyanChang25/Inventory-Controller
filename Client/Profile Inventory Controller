@@ -1,36 +1,34 @@
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local userInputService = game:GetService("UserInputService")
---------------------------------------------------------------------
 local GameDictionary = require(replicatedStorage.Shared.GameDictionary)
 local Maid = require(replicatedStorage.Shared.Maid)
 local MouseOverModule = require(script.Parent.Parent.Modules:WaitForChild("MouseOverModule"))
 local Knit = require(game:GetService("ReplicatedStorage").Packages.Knit)
---------------------------------------------------------------------
 local MainInterface = game.Players.LocalPlayer.PlayerGui.MainInterface
 local Mouse = game.Players.LocalPlayer:GetMouse()
 local InFrame = true
 local FrameChosen = "ItemInfo"
---------------------------------------------------------------------
-local InventoryTable = {}
---------------------------------------------------------------------
-local InventoryFrame = {}
-InventoryFrame.__index = InventoryFrame
 
-function InventoryFrame.newEmpty(scrollingFrame)
+local InventoryTable = {}
+
+local InventoryController = {}
+InventoryController.__index = InventoryController
+
+function InventoryController.newEmpty(scrollingFrame) -->>: Creates empty box objects in inventory frame
 	local emptyFrame = {}
 	emptyFrame._Frame = MainInterface.InventoryUI.SFClip[scrollingFrame].UIGridLayout.ItemFrame:Clone()
 	emptyFrame._Iteration = (#MainInterface.InventoryUI.SFClip[scrollingFrame]:GetChildren()-2) + 1
 	emptyFrame._ScrollFrame = MainInterface.InventoryUI.SFClip[scrollingFrame]
-	return setmetatable(emptyFrame, InventoryFrame)
+	return setmetatable(emptyFrame, InventoryController)
 end
 
-function InventoryFrame:setEmpty()
+function InventoryController:setEmpty()
 	self._Frame.Parent = self._ScrollFrame
 	self._Frame.LayoutOrder = self._Iteration
 	self._Frame.Name = self._Iteration
 end
 
-function InventoryFrame.newItem(name, rarity, upgrades, bonus, equipped, bind, scrollingFrame)
+function InventoryController.newItem(name, rarity, upgrades, bonus, equipped, bind, scrollingFrame) -->>: Creates item objects in inventory frame
 	local newItem = {}
 	newItem._Name = name
 	newItem._Rarity = rarity
@@ -44,12 +42,14 @@ function InventoryFrame.newItem(name, rarity, upgrades, bonus, equipped, bind, s
 	newItem._Bind = bind
 	newItem._ScrollFrame = MainInterface.InventoryUI.SFClip[scrollingFrame]
 	
-	return setmetatable(newItem, InventoryFrame)
+	return setmetatable(newItem, InventoryController)
 end
 
-function InventoryFrame:setItem()
+function InventoryController:setItem() -->>: Sets the properties and functions for inventory object frame
 	
 	table.insert(InventoryTable, self)
+	
+	-->>: Checks what kind of sort type is being used, will add to the inventory frame based on it
 	
 	if MainInterface.InventoryUI.Unsort.TextLabel.TextColor3 == Color3.fromRGB(226, 226, 226) then
 		for i = 0, #self._ScrollFrame:GetChildren()-2, 1 do 
@@ -98,7 +98,8 @@ function InventoryFrame:setItem()
 	if self._Upgrades ~= 0 then
 		self._Frame.UpgradeText.Text = "+ "..self._Upgrades
 	end
-
+	
+	-->>: Uses a MouseOverModule ()
 	local MouseEnter, MouseLeave = MouseOverModule.MouseEnterLeaveEvent(self._Frame)
 	self._Maid.MouseEnterConnection = MouseEnter:Connect(function()
 		if MainInterface.InventoryUI.Visible and InFrame and MainInterface.ArcaneInfo.Visible == false and self._ScrollFrame.Visible then
@@ -190,8 +191,12 @@ function InventoryFrame:setItem()
 				self._Frame:Destroy()
 
 				local tableChosen = InventoryTable
-
-				for i,v in pairs (tableChosen) do
+				
+				-->>: This function removes the inventory slot clicked, and places it in the players [Equipped] tab.
+				-->>: Because it removes the slot, all the other slots that has a higher iteration are subtracted by 1
+				-->>: And then it creates another EmptyFrame object
+				
+				for i,v in pairs (tableChosen) do 
 					if v._Iteration > self._Iteration then
 						v._Iteration = v._Iteration - 1
 						v._Frame.Name = v._Iteration
@@ -210,7 +215,7 @@ function InventoryFrame:setItem()
 					end
 				end
 
-				local EmptyFrame = InventoryFrame.newEmpty(self._ScrollFrame.Name) -- + 1 because you want it to be at the end
+				local EmptyFrame = InventoryController.newEmpty(self._ScrollFrame.Name) -- + 1 because you want it to be at the end
 				EmptyFrame:setEmpty()
 
 			else
@@ -266,7 +271,7 @@ function InventoryFrame:setItem()
 
 end
 
-function InventoryFrame.MouseMovedFunction()
+function InventoryController.MouseMovedFunction()
 	for i,v in pairs (MainInterface.ItemInfo:GetChildren()) do
 		if v.Name ~= "UICorner" then
 			v.Visible = true
@@ -291,7 +296,7 @@ function setButton(textButton)
 	textButton.BackgroundColor3 = Color3.fromRGB(122, 122, 122)
 end
 
-MainInterface.InventoryUI.SortLevel.MouseButton1Click:Connect(function()
+MainInterface.InventoryUI.SortLevel.MouseButton1Click:Connect(function() -->>: Sort function based on [LEVEL] of inventory objects
 	game.ReplicatedStorage.GameAssets.Sounds.UIClick:Play()
 	if MainInterface.InventoryUI.SortLevel.TextLabel.TextColor3 ~= Color3.fromRGB(226, 226, 226) then	
 		setButton(MainInterface.InventoryUI.SortLevel)
@@ -304,7 +309,7 @@ MainInterface.InventoryUI.SortLevel.MouseButton1Click:Connect(function()
 	
 end)
 
-MainInterface.InventoryUI.SortRarity.MouseButton1Click:Connect(function()
+MainInterface.InventoryUI.SortRarity.MouseButton1Click:Connect(function() -->>: Sort function based on [RARITY] of inventory objects
 	game.ReplicatedStorage.GameAssets.Sounds.UIClick:Play()
 	if MainInterface.InventoryUI.SortRarity.TextLabel.TextColor3 ~= Color3.fromRGB(226, 226, 226) then
 		setButton(MainInterface.InventoryUI.SortRarity)
@@ -317,7 +322,7 @@ MainInterface.InventoryUI.SortRarity.MouseButton1Click:Connect(function()
 	
 end)
 
-MainInterface.InventoryUI.Unsort.MouseButton1Click:Connect(function()
+MainInterface.InventoryUI.Unsort.MouseButton1Click:Connect(function() -->>: [UNSORTS] all inventory objects
 	game.ReplicatedStorage.GameAssets.Sounds.UIClick:Play()
 	if MainInterface.InventoryUI.Unsort.TextLabel.TextColor3 ~= Color3.fromRGB(226, 226, 226) then
 		setButton(MainInterface.InventoryUI.Unsort)
@@ -347,3 +352,5 @@ MainInterface.InventoryUI.Unsort.MouseButton1Click:Connect(function()
 	end
 
 end)
+
+return InventoryController
