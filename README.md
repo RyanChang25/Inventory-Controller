@@ -1,7 +1,7 @@
 # Inventory Controller with Profile Service
 
 ## Overview
-I developed the Inventory Controller so that it can easily read data returned from Profile Service and implement them into my UI structure through OOP and built-in sorting. The primary concepts to look at is how the client reads the Profile data, the usage of OOP, and the built-in sorting system. So if you're interested with that, please take a look at the basic usage implementation shown below!
+I developed a simple Inventory Controller so that it can easily read data returned from Profile Service and implement them into my UI structure through OOP and built-in sorting. The primary concepts to look at is how the client reads the Profile data, the usage of OOP, and the built-in sorting system. So if you're interested with that, please take a look at the basic usage implementation shown below!
 
 *Note: Since the code shown in this repo was coded with **MY** UI structure in mind, so it is not expected to work for others. The point of this repo rather, is to show how the backend systems function.* 
 
