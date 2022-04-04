@@ -1,2 +1,2 @@
 # Profile Inventory Controller
-A Controller I developed that reads data returned from Profile Service and implements them into a UI structure with OOP and built-in sorting.
+I developed the Profile Inventory Controller so that it can easily read data returned from Profile Service and implement them into a UI structure with OOP and built-in sorting.
